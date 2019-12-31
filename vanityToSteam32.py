@@ -18,7 +18,7 @@ def get32id(vanityURL):
     str(vanityURL)
     if SteamCommunity in vanityURL:
         p = re.compile("/id/(.*)")
-        vanityURL = p.search(vanityURL).group(1)
+        vanityURL = str(p.search(vanityURL).group(1)).replace("/", '')
 
     if vanityURL.startswith(SteamCommunity):
         vanityURL = vanityURL[len(SteamCommunity):]
@@ -26,6 +26,7 @@ def get32id(vanityURL):
     if vanityURL == None:
         exit(1)
     else:
+        vanityURL = vanityURL.replace("/", '')
         results = get(RESOLVE_URL % (STEAM_API, vanityURL))
         if results.status_code == 403:
             raise ValueError("Steam API Key is invalid")
